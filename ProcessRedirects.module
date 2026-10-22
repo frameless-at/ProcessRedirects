@@ -992,14 +992,18 @@ class ProcessRedirects extends Process implements ConfigurableModule {
 		/** @var InputfieldMarkup */
 		$instructions = $this->modules->get('InputfieldMarkup');
 		$instructions->label = $this->_('Instructions');
-		$instructions->value = $this->sanitizer->entitiesMarkdown(implode("\n", [
+		$lines = [
 			$this->_('The value in the "Redirect From" field should be a local, relative path — such as `/some/path/`. Provided path must also not match that of any existing page; existing page always takes precedence over a redirect, effectively rendering the redirect inactive.') . "\n",
 			$this->_('Examples of supported values:'),
 			$this->_('- Path with one or more parts: `/campaign/`, `/old/site/path/`, etc.'),
 			$this->_('- Path with a file extension: `/products/t-shirt.html`'),
 			$this->_('- Path with a query string: `/index.php?page=2`') . "\n",
 			$this->_('You may use "`*`" as a wildcard for matching zero or more characters: `/products/*` would match `/products/`, `/products/t-shirt/`, etc.'),
-		]), ['fullMarkdown' => true]);
+		];
+		if ($this->getLanguages() !== null) {
+			$lines[] = "\n" . $this->_('**Multi-language sites:** "Redirect From" may contain a language prefix, e.g. `/en/old/path/`. To redirect to a page in a specific language, select the page and then choose its language; the URL shown in the "or type URL here" field is the default-language URL and will be replaced with the URL of the selected language when saving. Alternatively, type the language-specific path (e.g. `/en/some/page/`) or use the import with such paths. Redirects to pages are stored by page ID and language, so they keep working if the page is renamed or moved.');
+		}
+		$instructions->value = $this->sanitizer->entitiesMarkdown(implode("\n", $lines), ['fullMarkdown' => true]);
 		$instructions->icon = 'info-circle';
 		$instructions->collapsed = Inputfield::collapsedYes;
 
