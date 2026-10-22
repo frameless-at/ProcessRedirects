@@ -795,7 +795,7 @@ class ProcessRedirects extends Process implements ConfigurableModule {
 	 * the default language, so the result is validated against the local path of each language.
 	 *
 	 * @param string $path Relative path, e.g. /en/some/page/
-	 * @param bool $isUrl Path is an URL that may contain the subdirectory ProcessWire is installed in
+	 * @param bool $isUrl Path is a URL that may contain the subdirectory ProcessWire is installed in
 	 * @return array [Page|NullPage, Language|null]
 	 */
 	private function findPageByPath(string $path, bool $isUrl = false): array {
